@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  api:
+    container_name: notitie_server
+    build: .
+    volumes:
+      - ./:/app
+    command: reflex -r '^(.*\.go|go.mod|go.sum)$$' -s go run cmd/api/main.go
+    ports:
+      - "8088:8088"

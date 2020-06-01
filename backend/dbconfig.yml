@@ -1,0 +1,6 @@
+  development:
+    dialect: mysql
+    datasource: |
+      notitie_user:notitie_pass@tcp(127.0.0.1)/notitie?parseTime=true&loc=Local&charset=utf8mb4
+    dir: ./sql/migrations
+    table: migrations

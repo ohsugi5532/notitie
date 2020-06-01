@@ -8,3 +8,28 @@ services:
     command: reflex -r '^(.*\.go|go.mod|go.sum)$$' -s go run cmd/api/main.go
     ports:
       - "8088:8088"
+    environment: &api_env_group
+      LOG_LEVEL: DEBUG
+      DB_HOST: db
+      DB_USER: notitie_user
+      DB_PASSWORD: notitie_pass
+      GDRIVE_EMAIL:
+      GDRIVE_PRIVATE_KEY:
+    depends_on:
+      - db
+  db: &db_group
+    container_name: notitie_db
+    image: mysql:5.7
+    command: |
+      --explicit_defaults_for_timestamp --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql_mode=""
+    volumes:
+      - ./sql/migrations:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: notitie
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_USER: notitie_user
+      MYSQL_PASSWORD: notitie_pass
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
